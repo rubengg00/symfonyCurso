@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends AbstractController
 {
@@ -19,6 +20,8 @@ class DefaultController extends AbstractController
      */
     public function index(GiftsService $gifts, Request $request, SessionInterface $session)
     {
+
+        // ------------- 1.- Persistencia de datos BBDD -------------
         // $entityManager = $this->getDoctrine()->getManager();
 
         // $user = new User;
@@ -40,6 +43,8 @@ class DefaultController extends AbstractController
 
         // exit($entityManager->flush());
 
+        // ------------- 2.-Notificaciones flash -------------
+
         // $this->addFlash(
         //     'notice',
         //     'Tus cambios han sido guardados!'
@@ -50,18 +55,19 @@ class DefaultController extends AbstractController
         //     'Tus cambios no han sido guardados!'
         // );
 
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        // ------------- 3.-Variables de sesiones -------------
+        // $session->set('name', 'session value');
 
-        $session->set('name', 'session value');
+        // // $session->remove('name');
 
-        // $session->remove('name');
+        // $session->clear();
 
-        $session->clear();
+        // if($session->has('name'))
+        // {
+        //     exit($session->get('name'));
+        // }
 
-        if($session->has('name'))
-        {
-            exit($session->get('name'));
-        }
+        // ------------- 4.- Creacion de cookies -------------
 
         // $cookie = new Cookie(
         //     'my_cookie',                        //Nombre de la cookie
@@ -80,6 +86,21 @@ class DefaultController extends AbstractController
         // $res->headers->clearCookie( 'my_cookie' );
 
         // $res->send();
+
+        // ------------- 5.- Obtener GET y POST -------------
+        // exit($request->query->get('page', 'default'));   OBTENER PARAMETROS GET
+        // exit($request->server->get('HTTP_HOST'));
+        // $request->isXmlHttpRequest(); // Es una peticion Ajax?
+        // $request->request->get('page'); // OBTENER PARAMETROS POST
+        // $request->files->get('foo'); // OBTENER ARCHIVOS SUBIDOS
+
+        // ------------- 6.- Manejo de excepciones -------------
+        // if ($users) {
+        //     throw $this->createNotFoundException('No existen ningun usuario');
+        // }
+
+
+        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController',
