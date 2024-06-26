@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Hello {{ controller_name }}!{% endblock %}
+
+{% set users = [{name: 'John'}, {name: 'Rubs'}] %}
 
 {% block body %}
 <style>
@@ -11,18 +13,30 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hola {{ controller_name }}! ✅</h1>
+    <h1>Hola {{ controller_name|upper }}! ✅</h1>
     Este mensaje esta viniendo de:
     <ul>
         <li>Tu controlador en <code><a href="{{ 'C:/xampp/htdocs/symfony-curso/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>
         <li>Tu plantilla en <code><a href="{{ 'C:/xampp/htdocs/symfony-curso/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
     </ul>
 
-    <ul>
+    {% for user in users | filter(user => user.name == 'Rubs') %}
+        <li> {{user.name}} </li>
+    {% endfor %}
+
+    {{ include("includes/subview.html.twig", { 'users': users }) }}
+
+    {% for i in 1..10 %}
+        <div class="{{ cycle(['even', 'odd'], i) }}">
+            {{i}}
+        </div>
+    {% endfor %}
+
+    {# <ul>
         {% for user in users %}
             <li>{{user.name}} - you won {{randomGift[loop.index0]}}</li>
         {% endfor %}
-    </ul>
+    </ul> #}
 
     {# {% for label, messages in app.flashes %}
         {% for message in messages %}

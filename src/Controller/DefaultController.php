@@ -17,7 +17,7 @@ class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/", name="default")
+     * @Route("/page", name="default")
      */
     public function index(GiftsService $gifts, Request $request, SessionInterface $session)
     {
@@ -101,12 +101,16 @@ class DefaultController extends AbstractController
         // }
 
 
-        $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+        // $users = $this->getDoctrine()->getRepository(User::class)->findAll();
+
+        // return $this->render('default/index.html.twig', [
+        //     'controller_name' => 'DefaultController',
+        //     'users' => $users,
+        //     'randomGift' => $gifts->gifts
+        // ]);
 
         return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-            'users' => $users,
-            'randomGift' => $gifts->gifts
+            'controller_name' => 'DefaultController'
         ]);
     }
 
