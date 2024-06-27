@@ -164,25 +164,37 @@ class DefaultController extends AbstractController
         // }
 
         // ------------- 8.- Raw queries Doctrine -------------
-        
-         // ------------- 8.- Raw queries Doctrine -------------
-         $conn = $this->entityManager->getConnection();
+        // $conn = $this->entityManager->getConnection();
 
-         $sql = '
-             SELECT * FROM user u
-             WHERE u.id > :id
-             ORDER BY id DESC
-         ';
- 
-         $stmt = $conn->prepare($sql);
-         $results= $stmt->executeQuery(['id' => 3]);
- 
-         
-         dump($results->fetchAllAssociative());
- 
-         return $this->render('default/index.html.twig', [
-             'controller_name' => 'DefaultController'
-         ]);
+        // $sql = '
+        //      SELECT * FROM user u
+        //      WHERE u.id > :id
+        //      ORDER BY id DESC
+        //  ';
+
+        // $stmt = $conn->prepare($sql);
+        // $results = $stmt->executeQuery(['id' => 3]);
+
+
+        // dump($results->fetchAllAssociative());
+
+        // ------------- 9.- Param converter Doctrine -------------
+        // $entityManager = $this->getDoctrine()->getManager();
+        // dump($user);
+
+        // ------------- 10.- LifecyleCallbacks Doctrine (mirar User.php)-------------
+        // $entityManager = $this->getDoctrine()->getManager();
+
+        // $user = new User();
+        // $user->setName("Robert");
+        // $entityManager->persist($user);
+        // $entityManager->flush();
+
+        // dump($user);
+
+        return $this->render('default/index.html.twig', [
+            'controller_name' => 'DefaultController'
+        ]);
     }
 
     /**
@@ -227,7 +239,7 @@ class DefaultController extends AbstractController
     {
         exit($this->generateUrl(
             'generate_url',
-            array('param'=>10),
+            array('param' => 10),
             UrlGeneratorInterface::ABSOLUTE_URL
         ));
     }
@@ -238,7 +250,7 @@ class DefaultController extends AbstractController
     public function download()
     {
         $path = $this->getParameter('download_directory');
-        return $this->file($path.'file.pdf');
+        return $this->file($path . 'file.pdf');
     }
 
     /**
@@ -246,7 +258,7 @@ class DefaultController extends AbstractController
      */
     public function redirectTest()
     {
-        return $this->redirectToRoute('route_to_redirect', array('param'=>10));
+        return $this->redirectToRoute('route_to_redirect', array('param' => 10));
     }
 
     /**
@@ -264,7 +276,7 @@ class DefaultController extends AbstractController
     {
         $response = $this->forward(
             "App\Controller\DefaultController::methodToForwardTo",
-            array('param'=>'1')
+            array('param' => '1')
         );
 
         return $response;
@@ -275,7 +287,7 @@ class DefaultController extends AbstractController
      */
     public function methodToForwardTo($param)
     {
-        exit('Test controller forwarding - '.$param);
+        exit('Test controller forwarding - ' . $param);
     }
 
 
@@ -284,8 +296,7 @@ class DefaultController extends AbstractController
         //Llamada a la BD
         $posts = ['post 1', 'post 2', 'post 3', 'post 4'];
         return $this->render('default/most_popular_posts.html.twig', [
-            'posts'=> $posts
+            'posts' => $posts
         ]);
     }
-
 }
