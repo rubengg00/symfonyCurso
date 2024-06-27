@@ -17,7 +17,7 @@ class DefaultController extends AbstractController
 {
 
     /**
-     * @Route("/page", name="default")
+     * @Route("/home", name="default", name="home")
      */
     public function index(GiftsService $gifts, Request $request, SessionInterface $session)
     {
@@ -205,6 +205,16 @@ class DefaultController extends AbstractController
     public function methodToForwardTo($param)
     {
         exit('Test controller forwarding - '.$param);
+    }
+
+
+    public function mostPopularPosts($number = 3)
+    {
+        //Llamada a la BD
+        $posts = ['post 1', 'post 2', 'post 3', 'post 4'];
+        return $this->render('default/most_popular_posts.html.twig', [
+            'posts'=> $posts
+        ]);
     }
 
 }

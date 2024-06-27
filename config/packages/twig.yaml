@@ -1,5 +1,7 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        ga_code: Prueba de variable global para todas las plantillas twig
 
 when@test:
     twig:
