@@ -12,9 +12,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DefaultController extends AbstractController
 {
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * @Route("/home", name="default", name="home")
@@ -109,9 +117,72 @@ class DefaultController extends AbstractController
         //     'randomGift' => $gifts->gifts
         // ]);
 
-        return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController'
-        ]);
+        // ------------- 7.- CRUD -------------
+        // ------------- Create
+        // $entityManager = $this->getDoctrine()->getManager();
+        // $user = new User();
+        // $user->setName('Davi');
+        // $entityManager->persist($user);
+        // $entityManager->flush();
+        // dump('A new user was saved with the id of '. $user->getId());
+
+        // ------------- Read
+        // $repository = $this->getDoctrine()->getRepository(User::class);
+        // // $user = $repository->find(1);
+        // // $user = $repository->findOneBy(['name' => 'Davi']);
+        // $user = $repository->findAll();
+        // dump($user);
+
+        // ------------- Update
+        // $entityManager = $this->getDoctrine()->getManager();
+        // $id = 1;
+        // $user = $entityManager->getRepository(User::class)->find($id); 
+
+        // if(!$user)
+        // {
+        //     throw $this->createNotFoundException(
+        //         "No se ha encontrado el usuario con el id ".$id
+        //     );
+        // }
+
+        // $user->setName('New user name');
+        // // $entityManager->persist($user);
+        // $entityManager->flush();
+        // dump($user);
+
+        // ------------- Delete
+        // $entityManager = $this->getDoctrine()->getManager();
+        // $id = 3;
+
+        // $user = $entityManager->getRepository(User::class)->find($id);
+
+        // if ($user) {
+        //     $entityManager->remove($user);
+        //     $entityManager->flush();
+
+        //     dump($user);
+        // }
+
+        // ------------- 8.- Raw queries Doctrine -------------
+        
+         // ------------- 8.- Raw queries Doctrine -------------
+         $conn = $this->entityManager->getConnection();
+
+         $sql = '
+             SELECT * FROM user u
+             WHERE u.id > :id
+             ORDER BY id DESC
+         ';
+ 
+         $stmt = $conn->prepare($sql);
+         $results= $stmt->executeQuery(['id' => 3]);
+ 
+         
+         dump($results->fetchAllAssociative());
+ 
+         return $this->render('default/index.html.twig', [
+             'controller_name' => 'DefaultController'
+         ]);
     }
 
     /**
