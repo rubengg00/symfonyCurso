@@ -251,22 +251,48 @@ class DefaultController extends AbstractController
 
        // ------------- 13.- Doctrine one-to-one relationship -------------
 
+        // $user = new User();
+        // $user->setName("Ruben");
+
+        // $address = new Address();
+        // $address->setNumber(17);
+        // $address->setStreet("Calle Estadio");
+
+        // $user->setAddress($address);
+
+        // $entityManager->persist($user);
+        // // $entityManager->persist($address); //required, if 'cascade: persist' is not set
+
+        // $entityManager->flush();
+        // dump($user->getAddress()->getStreet());
+
+       // ------------- 14.- Doctrine many-to-many relationship -------------
+
+        // for ($i=1; $i <= 4 ; $i++) { 
+        //     $user = new User();
+        //     $user->setName('Robert - '.$i);
+        //     $entityManager->persist($user);
+        // }
+
+        // $entityManager->flush();
+
+        // dump("last user id - ".$user->getId());
+
         $entityManager = $this->getDoctrine()->getManager();
 
-        $user = new User();
-        $user->setName("Ruben");
+        $user1 = $entityManager->getRepository(User::class)->find(1);
+        $user2 = $entityManager->getRepository(User::class)->find(2);
+        $user3 = $entityManager->getRepository(User::class)->find(3);
+        $user4 = $entityManager->getRepository(User::class)->find(4);
 
-        $address = new Address();
-        $address->setNumber(17);
-        $address->setStreet("Calle Estadio");
+        // $user1->addFollowed($user2);
+        // $user1->addFollowed($user3);
+        // $user1->addFollowed($user4);
+        // $entityManager->flush();
+        dump($user1->getFollowed()->count());
+        dump($user1->getFollowing()->count());
+        dump($user4->getFollowing()->count());
 
-        $user->setAddress($address);
-
-        $entityManager->persist($user);
-        // $entityManager->persist($address); //required, if 'cascade: persist' is not set
-
-        $entityManager->flush();
-        dump($user->getAddress()->getStreet());
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController'
