@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\User;
 use App\Entity\Video;
 use App\Services\GiftsService;
@@ -222,11 +223,50 @@ class DefaultController extends AbstractController
 
         // dump($video->getUser()->getName());
 
-        $user = $this ->getDoctrine()->getRepository(User::class)->find(1);
+        // $user = $this ->getDoctrine()->getRepository(User::class)->find(1);
 
-        foreach ($user->getVideos() as $video) {
-            dump($video->getTitle());
-        }
+        // foreach ($user->getVideos() as $video) {
+        //     dump($video->getTitle());
+        // }
+
+        // ------------- 12.- Cascade remove related objects -------------
+
+        // $entityManager->remove($user);
+        
+        // $entityManager->flush();
+
+        // dump($user);
+
+        // $user = $this->getDoctrine()->getRepository(User::class)->find(1);
+
+        // $video = $this->getDoctrine()->getRepository(Video::class)->find(1);
+
+        // $user->removeVideo($video);
+
+        // $entityManager->flush();
+
+        // foreach ($user->getVideos() as $video) {
+        //     dump($video->getTitle());
+        // }
+
+       // ------------- 13.- Doctrine one-to-one relationship -------------
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $user = new User();
+        $user->setName("Ruben");
+
+        $address = new Address();
+        $address->setNumber(17);
+        $address->setStreet("Calle Estadio");
+
+        $user->setAddress($address);
+
+        $entityManager->persist($user);
+        // $entityManager->persist($address); //required, if 'cascade: persist' is not set
+
+        $entityManager->flush();
+        dump($user->getAddress()->getStreet());
 
         return $this->render('default/index.html.twig', [
             'controller_name' => 'DefaultController'

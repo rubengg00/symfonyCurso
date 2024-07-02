@@ -30,8 +30,11 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Video::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Video::class, orphanRemoval:true)]
     private Collection $videos;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Address $address = null;
 
     public function __construct()
     {
@@ -81,6 +84,18 @@ class User
                 $video->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): static
+    {
+        $this->address = $address;
 
         return $this;
     }
