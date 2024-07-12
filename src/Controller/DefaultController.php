@@ -293,7 +293,6 @@ class DefaultController extends AbstractController
         // dump($user4->getFollowing()->count());
 
        // ------------- 15.- Doctrine Query Builder & eager loading -------------
-        $entityManager = $this->getDoctrine()->getManager();
 
         // $user = new User();
         // $user->setName('Robert');
@@ -309,9 +308,14 @@ class DefaultController extends AbstractController
 
         // $entityManager->flush();
     
-        $user = $entityManager->getRepository(User::class)->findWithVideos(1);
+        // $user = $entityManager->getRepository(User::class)->findWithVideos(1);
 
-        dump($user);
+        // dump($user);
+
+       // ------------- 16.- Doctrine table inheritance mapping (polymorphic queries) -------------
+
+        $entityManager = $this->getDoctrine()->getManager();
+
 
 
 
