@@ -278,20 +278,41 @@ class DefaultController extends AbstractController
 
         // dump("last user id - ".$user->getId());
 
+
+        // $user1 = $entityManager->getRepository(User::class)->find(1);
+        // $user2 = $entityManager->getRepository(User::class)->find(2);
+        // $user3 = $entityManager->getRepository(User::class)->find(3);
+        // $user4 = $entityManager->getRepository(User::class)->find(4);
+
+        // // $user1->addFollowed($user2);
+        // // $user1->addFollowed($user3);
+        // // $user1->addFollowed($user4);
+        // // $entityManager->flush();
+        // dump($user1->getFollowed()->count());
+        // dump($user1->getFollowing()->count());
+        // dump($user4->getFollowing()->count());
+
+       // ------------- 15.- Doctrine Query Builder & eager loading -------------
         $entityManager = $this->getDoctrine()->getManager();
 
-        $user1 = $entityManager->getRepository(User::class)->find(1);
-        $user2 = $entityManager->getRepository(User::class)->find(2);
-        $user3 = $entityManager->getRepository(User::class)->find(3);
-        $user4 = $entityManager->getRepository(User::class)->find(4);
+        // $user = new User();
+        // $user->setName('Robert');
 
-        // $user1->addFollowed($user2);
-        // $user1->addFollowed($user3);
-        // $user1->addFollowed($user4);
+        // for ($i=1; $i <= 3 ; $i++) { 
+        //     $video = new Video();
+        //     $video->setTitle('Video title - '.$i);
+        //     $user->addVideo($video);
+        //     $entityManager->persist($video);
+        // }
+
+        // $entityManager->persist($user);
+
         // $entityManager->flush();
-        dump($user1->getFollowed()->count());
-        dump($user1->getFollowing()->count());
-        dump($user4->getFollowing()->count());
+    
+        $user = $entityManager->getRepository(User::class)->findWithVideos(1);
+
+        dump($user);
+
 
 
         return $this->render('default/index.html.twig', [
